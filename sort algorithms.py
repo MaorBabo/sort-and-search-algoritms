@@ -2,6 +2,7 @@
 This file contain sorting algorithms and its purpose
 is to use as a tool for other projects.
 """
+import random
 
 
 def BubbleSort(lst):
@@ -148,3 +149,37 @@ def MergeSort(lst):
     right = MergeSort(lst[mid:])
 
     return Merge(left, right)
+
+
+def QuickSort(lst):
+    """
+    This function implement the quick
+    sort algorithm using thr module "random".
+    :param lst: Unsorted list of comparable items.
+    :return: sorted list of the same items.
+
+    Run time complexity:
+
+    n = len(lst)
+    worst case - O(n^2)
+    best case - O(n*log(n))
+    average case - O(n*log(n))
+
+    * Usually This algorithm works with O(n*log(n)).
+    """
+
+    # Base case:
+    if len(lst) <= 1:
+        return lst
+    else:
+        pivot = random.choice(lst)
+
+        smaller = [element for element in lst if element < pivot]
+        equal = [element for element in lst if element == pivot]
+        grater = [element for element in lst if element > pivot]
+
+        return QuickSort(smaller) + equal + QuickSort(grater)
+
+
+
+
