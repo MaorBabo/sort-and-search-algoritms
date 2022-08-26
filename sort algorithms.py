@@ -91,10 +91,60 @@ def InsertionSort(lst):
         index2 = index1 - 1
 
         while index2 >= 0 and key < lst[index2]:
-
             lst[index2 + 1] = lst[index2]
             index2 -= 1
 
         lst[index2 + 1] = key
 
     return lst
+
+
+def Merge(lst1, lst2):
+    """
+    This function implement the merge algorithm
+    as a helper function to MergeSort.
+    :param lst1: Sorted list of comparable items.
+    :param lst2: Sorted list of comparable items.
+    :return: A single sorted list that contains the items from lst1 and lst2.
+
+    run time complexity O(max(len(lst1), len(lst2)))
+    """
+    result = []
+    index1 = index2 = 0
+
+    while index1 < len(lst1) and index2 < len(lst2):
+
+        if lst1[index1] <= lst2[index2]:
+            result.append(lst1[index1])
+            index1 += 1
+
+        else:
+            result.append(lst2[index2])
+            index2 += 1
+
+    result += lst1[index1:]
+    result += lst2[index2:]
+
+    return result
+
+
+def MergeSort(lst):
+    """
+    This function implement the Merge sort algorithm.
+    :param lst: Unsorted list of comparable items
+    :return: Sorted list of the same items.
+
+    run time complexity = O(n*log(n))
+    (n = len(lst))
+    """
+
+    # Base case(the list contain just one or less items):
+    if len(lst) < 2:
+        return lst
+
+    mid = len(lst) // 2
+
+    left = MergeSort(lst[:mid])
+    right = MergeSort(lst[mid:])
+
+    return Merge(left, right)
