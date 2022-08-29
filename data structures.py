@@ -27,8 +27,13 @@ class LNode:
 
 class LinkedList:
 
-    def __init__(self, head=None):
-        self.__head = head
+    def __init__(self, sequence=None):
+        self.__head = None
+
+        if sequence is not None:
+
+            for val in sequence[:: - 1]:
+                self.addFirst(val)
 
     def __repr__(self):
         """
@@ -94,6 +99,32 @@ class LinkedList:
 
         return current.data
 
+    def __setitem__(self, key, value):
+        """
+        This method make the option of access to a
+        value and change it in linked list by index.
+        :param key: int number that represent index.
+        :param value: the value we want to put in that index.
+        :return: None.
+
+        Complexity:
+
+        n = len(linked list)
+        run time complexity = O(n)
+        """
+
+        # Checks that the key is valid.
+        if key < 0 or key > len(self) - 1:
+            raise IndexError("List index out of range!")
+
+        current = self.__head
+
+        for index in range(0, key):
+            current = current.next
+
+        current.data = value
+        return
+
     def addFirst(self, value):
         """
         This method add node to the start of the linked list.
@@ -153,17 +184,60 @@ class LinkedList:
         # In case that there is no such value in the linked list.
         return None
 
+    def insert(self, value, index):
+        """
+        This method insert a node with
+        the given value into the given index.
+        :param value: some value.
+        :param index: int number
+        :return: None.
 
-l1 = LinkedList()
-l1.addFirst('1')
-l1.addFirst('2')
-l1.addFirst('3')
-l1.addFirst('4')
-print(l1)
-print(len(l1))
-print(l1.sum())
-n = l1.find('2')
-print(n.next)
+        Complexity:
 
-print(l1[1])
-print(type(l1[1]))
+        n = len(linked list)
+        run time complexity = O(n)
+        """
+        # Checks that the index is valid.
+        if index < 0 or index > len(self) - 1:
+            raise IndexError("List index out of range!")
+
+        # In case that we want to add the value at the first of the list.
+        if index == 0:
+            self.addFirst(value)
+            return
+
+        current = self.__head
+        node = LNode(value)
+
+        for _ in range(0, index - 1):
+            current = current.next
+
+        temp = current.next
+        current.next = node
+        node.next = temp
+
+        return
+
+    def delete(self, index):
+        """
+        This method gets an index and delete
+        the node that contain that index.
+        :param index: int number.
+        :return: None
+        """
+        # Checks that the index is valid.
+        if index < 0 or index > len(self) - 1:
+            raise IndexError("List index out of range!")
+
+        if index == 0:
+            self.__head = self.__head.next
+            return
+
+        current = self.__head
+
+        for _ in range(0, index - 1):
+            current = current.next
+
+        current.next = current.next.next
+        return
+
